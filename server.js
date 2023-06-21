@@ -1,7 +1,8 @@
 // db connection
-
+const db = require('./public/js/connect.js');
 
 // inquirer prompts
+const controller = require('./public/js/control.js');
 
 
 const init = async () => {
