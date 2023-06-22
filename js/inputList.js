@@ -10,9 +10,12 @@ const inputList = [
     'Update Employee Role',
     'View Employees by Department',
     'View Employees by Manager',
+    // 'View Total Utilized Budget of Department',
+    'Delete Employee',
+    'Delete Department',
+    'Delete Role',
     // need to update
     // update employee manager
-    // delete departments, roles, and employees
     // view total salaries of departments
     'Exit'
 ];

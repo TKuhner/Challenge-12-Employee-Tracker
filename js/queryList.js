@@ -102,6 +102,34 @@ const queryList = {
             }
         });
     },
+    deleteEmployee: function (db, id) {
+        db.query('DELETE FROM employee WHERE id = ?', [id], function (err, results) {
+            if (err) {
+                throw err
+            } else {
+                console.log('Employee deleted!');
+            }
+        });
+    },
+    deleteDepartment: function (db, id) {
+        db.query('DELETE FROM department WHERE id = ?', [id], function (err, results) {
+            if (err) {
+                throw err
+            } else {
+                console.log('Department deleted!');
+            }
+        });
+    },
+    deleteRole: function (db, id) {
+        db.query('DELETE FROM role WHERE id = ?', [id], function (err, results) {
+            if (err) {
+                throw err
+            } else {
+                console.log('Role deleted!');
+            }
+        });
+    }
+    
 };
 
 

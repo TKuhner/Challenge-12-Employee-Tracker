@@ -53,14 +53,28 @@ async function startPrompt(db) {
                 const managers = await viewEmployeesByManager(db);
                 const queryManagers = queryList.viewEmployeesByManager(db, managers);
                 break;
+            case 'Delete Employee':
+                const deleteEmp = await deleteEmployee(db);
+                queryList.deleteEmployee(db, deleteEmp);
+                break;
+            case 'Delete Department':
+                const deleteDept = await deleteDepartment(db);
+                queryList.deleteDepartment(db, deleteDept);
+                break;
+            case 'Delete Role':
+                const deleteRole = await deleteRole(db);
+                queryList.deleteRole(db, deleteRole);
+                break;
+            case 'Exit':
+                console.log('Goodbye!');
+                process.exit();
+                break;
             default:
                 console.log('Error');
 
             // bonus cases
             // Update employee managers.
-            // View employees by manager.
-            // View employees by department.
-            // Delete departments, roles, and employees.
+
         }
         startPrompt(db); // Recursive call
     };
@@ -281,5 +295,38 @@ async function viewEmployeesByManager(db) {
         console.error(error);
     }
 }
+
+
+
+async function deleteDepartment(db) {
+    try {
+        const departments = await queryList.getAllDepartments(db);
+        const departmentsIds = departments.map(department => department.id);
+        console.table(departments);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the department you would like to delete?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!departmentsIds.includes(response.id)) {
+            console.log('Please enter a valid department id');
+            return;
+        } else {
+            return response.id;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 
 module.exports = { startPrompt };
