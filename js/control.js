@@ -97,48 +97,6 @@ async function addDepartment() {
     }
 }
 
-async function addRole(db) {
-    try {
-
-        const depts = await queryList.getAllDepartments(db);
-        const deptsIds = depts.map(dept => dept.id);
-        console.log("Please note, that the ID of the department you select must be a corresponding number to this table.")
-        console.table(depts);
-        const response = await inquirer.prompt([
-            {
-                type: 'input',
-                message: 'What is the title of the role?',
-                name: 'title'
-            },
-            {
-                type: 'number',
-                message: 'What is the salary of the role?',
-                name: 'salary'
-            },
-            {
-                type: 'number',
-                message: 'What is the department id of the role?',
-                name: 'department_id'
-            }
-        ]);
-        if (isNaN(response.salary) || isNaN(response.department_id)) {
-            console.log('Please enter a valid input');
-            return;
-        }
-
-        if (!deptsIds.includes(response.department_id)) {
-            console.log('Please enter a valid department id');
-            return;
-        } else {
-            return response;
-        }
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
 async function addEmployee(db) {
     try {
         const roles = await queryList.getAllRoles(db);
@@ -191,27 +149,89 @@ async function addEmployee(db) {
     }
 }
 
-async function updateEmployeeRole(db) {
+async function addRole(db) {
     try {
-        const employees = await queryList.getAllEmployees(db);
-        const employeesIds = employees.map(employee => employee.id);
-        const roles = await queryList.getAllRoles(db);
-        const rolesIds = roles.map(role => role.id);
-        console.table(employees);
-        console.table(roles);
+
+        const depts = await queryList.getAllDepartments(db);
+        const deptsIds = depts.map(dept => dept.id);
+        console.log("Please note, that the ID of the department you select must be a corresponding number to this table.")
+        console.table(depts);
         const response = await inquirer.prompt([
             {
-                type: 'number',
-                message: 'What is the id of the employee you would like to update?',
-                name: 'id'
+                type: 'input',
+                message: 'What is the title of the role?',
+                name: 'title'
             },
             {
                 type: 'number',
-                message: 'What is the id of the role you would like to update the employee to?',
-                name: 'role_id'
+                message: 'What is the salary of the role?',
+                name: 'salary'
+            },
+            {
+                type: 'number',
+                message: 'What is the department id of the role?',
+                name: 'department_id'
             }
         ]);
-        if (isNaN(response.id) || isNaN(response.role_id)) {
+        if (isNaN(response.salary) || isNaN(response.department_id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!deptsIds.includes(response.department_id)) {
+            console.log('Please enter a valid department id');
+            return;
+        } else {
+            return response;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function deleteDepartment(db) {
+    try {
+        const departments = await queryList.getAllDepartments(db);
+        const departmentsIds = departments.map(department => department.id);
+        console.table(departments);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the department you would like to delete?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!departmentsIds.includes(response.id)) {
+            console.log('Please enter a valid department id');
+            return;
+        } else {
+            return response.id;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function deleteEmployee(db) {
+    try {
+        const employees = await queryList.getAllEmployees(db);
+        const employeesIds = employees.map(employee => employee.id);
+        console.table(employees);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the employee you would like to delete?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
             console.log('Please enter a valid input');
             return;
         }
@@ -219,12 +239,37 @@ async function updateEmployeeRole(db) {
         if (!employeesIds.includes(response.id)) {
             console.log('Please enter a valid employee id');
             return;
-        } else if (!rolesIds.includes(response.role_id)) {
+        } else {
+            return response.id;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function deleteRole(db) {
+    try {
+        const roles = await queryList.getAllRoles(db);
+        const rolesIds = roles.map(role => role.id);
+        console.table(roles);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the role you would like to delete?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!rolesIds.includes(response.id)) {
             console.log('Please enter a valid role id');
             return;
         } else {
-            console.log('Employee role updated!');
-            return response;
+            return response.id;
         }
 
     } catch (error) {
@@ -296,65 +341,50 @@ async function viewEmployeesByManager(db) {
     }
 }
 
-
-
-async function deleteDepartment(db) {
+async function updateEmployeeRole(db) {
     try {
-        const departments = await queryList.getAllDepartments(db);
-        const departmentsIds = departments.map(department => department.id);
-        console.table(departments);
-        const response = await inquirer.prompt([
-            {
-                type: 'number',
-                message: 'What is the id of the department you would like to delete?',
-                name: 'id'
-            }
-        ]);
-        if (isNaN(response.id)) {
-            console.log('Please enter a valid input');
-            return;
-        }
-
-        if (!departmentsIds.includes(response.id)) {
-            console.log('Please enter a valid department id');
-            return;
-        } else {
-            return response.id;
-        }
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
-async function deleteRole(db) {
-    try {
+        const employees = await queryList.getAllEmployees(db);
+        const employeesIds = employees.map(employee => employee.id);
         const roles = await queryList.getAllRoles(db);
         const rolesIds = roles.map(role => role.id);
+        console.table(employees);
         console.table(roles);
         const response = await inquirer.prompt([
             {
                 type: 'number',
-                message: 'What is the id of the role you would like to delete?',
+                message: 'What is the id of the employee you would like to update?',
                 name: 'id'
+            },
+            {
+                type: 'number',
+                message: 'What is the id of the role you would like to update the employee to?',
+                name: 'role_id'
             }
         ]);
-        if (isNaN(response.id)) {
+        if (isNaN(response.id) || isNaN(response.role_id)) {
             console.log('Please enter a valid input');
             return;
         }
 
-        if (!rolesIds.includes(response.id)) {
+        if (!employeesIds.includes(response.id)) {
+            console.log('Please enter a valid employee id');
+            return;
+        } else if (!rolesIds.includes(response.role_id)) {
             console.log('Please enter a valid role id');
             return;
         } else {
-            return response.id;
+            console.log('Employee role updated!');
+            return response;
         }
 
     } catch (error) {
         console.error(error);
     }
 }
+
+
+
+
+
 
 module.exports = { startPrompt };
