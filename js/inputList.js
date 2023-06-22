@@ -7,8 +7,9 @@ const inputList = [
     'Add Employee',
     'Add Department',
     'Add Role',
-    // need to update
     'Update Employee Role',
+    'View Employees by Department',
+    // need to update
     // update employee manager
     // view employees by manager
     // delete departments, roles, and employees

@@ -52,7 +52,7 @@ const queryList = {
         db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employee.first_name, employee.last_name, employee.role_id, employee.manager_id], function (err, results) {
             if (err) throw err;
         });
-        
+
     },
     addDepartment: function (db, departmentName) {
         db.query('INSERT INTO department (department_name) VALUES (?)', [departmentName], function (err, results) {
@@ -60,19 +60,21 @@ const queryList = {
         });
     },
     addRole: function (db, role) {
-        db.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [role.title, role.salary, role.department_id], function(err, results) {
+        db.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [role.title, role.salary, role.department_id], function (err, results) {
             if (err) {
                 throw err
             } else {
                 console.log('Role added!');
             }
-
         });
     },
-    updateEmployeeRole: function (db) {
-        // db.query('UPDATE employee SET role_id = ? WHERE id = ?', [role_id, id], function (err, results) {
-        //     if (err) throw err;
-        // });
+    updateEmployeeRole: function (db, role_id, id) {
+        db.query('UPDATE employee SET role_id = ? WHERE id = ?', [role_id, id]);
+    },
+    viewEmployeesByDepartment: function (db, department_id) {
+        db.query('SELECT * FROM employee WHERE department_id = ?', [department_id], function (err, results) {
+            console.table(results);
+        });
     }
 };
 

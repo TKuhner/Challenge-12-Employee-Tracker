@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const inputList = require('./inputList.js');
 const queryList = require('./queryList.js');
 const { start } = require('repl');
+const { query } = require('express');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function startPrompt(db) {
@@ -45,7 +46,13 @@ async function startPrompt(db) {
                     break;
                 }
             case 'Update Employee Role':
-            // queryList.updateEmployeeRole(db);
+                const updateEmployee = await updateEmployeeRole(db);
+                queryList.updateEmployeeRole(db, updateEmployee.role_id, updateEmployee.id);
+                break;
+            case 'View Employees by Department':
+                const dept = await queryList.getAllDepartments(db);
+                queryList.viewEmployeesByDepartment(db);
+                break;
             default:
                 console.log('Error');
 
@@ -171,7 +178,76 @@ async function addEmployee(db) {
     }
 }
 
+async function updateEmployeeRole(db) {
+    try {
+        const employees = await queryList.getAllEmployees(db);
+        const employeesIds = employees.map(employee => employee.id);
+        const roles = await queryList.getAllRoles(db);
+        const rolesIds = roles.map(role => role.id);
+        console.table(employees);
+        console.table(roles);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the employee you would like to update?',
+                name: 'id'
+            },
+            {
+                type: 'number',
+                message: 'What is the id of the role you would like to update the employee to?',
+                name: 'role_id'
+            }
+        ]);
+        if (isNaN(response.id) || isNaN(response.role_id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
 
+        if (!employeesIds.includes(response.id)) {
+            console.log('Please enter a valid employee id');
+            return;
+        } else if (!rolesIds.includes(response.role_id)) {
+            console.log('Please enter a valid role id');
+            return;
+        } else {
+            console.log('Employee role updated!');
+            return response;
+        }
 
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function viewEmployeesByDepartment(db){
+    try {
+        const departments = await queryList.getAllDepartments(db);
+        const departmentsIds = departments.map(department => department.id);
+        console.table(departments);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the department you would like to view?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!departmentsIds.includes(response.id)) {
+            console.log('Please enter a valid department id');
+            return;
+        } else {
+            console.log('Employees by department!');
+            return response;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
 
 module.exports = { startPrompt };
