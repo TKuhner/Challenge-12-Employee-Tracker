@@ -46,8 +46,12 @@ async function startPrompt(db) {
                 break;
             case 'View Employees by Department':
                 const depts = await viewEmployeesByDepartment(db);
-                const query = queryList.viewEmployeesByDepartment(db, depts);
-                console.table(query);
+                const queryDepts = queryList.viewEmployeesByDepartment(db, depts);
+                console.table(queryDepts);
+                break;
+            case 'View Employees by Manager':
+                const managers = await viewEmployeesByManager(db);
+                const queryManagers = queryList.viewEmployeesByManager(db, managers);
                 break;
             default:
                 console.log('Error');
@@ -244,6 +248,38 @@ async function viewEmployeesByDepartment(db) {
         console.error(error);
     }
 
+}
+
+async function viewEmployeesByManager(db) {
+    try {
+        const managers = await queryList.getAllManagers(db);
+        const managersIds = managers.map(manager => manager.manager_id);
+        console.table(managers);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the manager you would like to view?',
+                name: 'id'
+            }
+        ]);
+        console.log("response.id " + response.id);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+        console.log("manager ids " + managersIds);
+
+        if (!managersIds.includes(response.id)) {
+            console.log('Please enter a valid manager id');
+            return;
+        } else {
+            console.log('Employees by manager!');
+            return response.id;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 module.exports = { startPrompt };

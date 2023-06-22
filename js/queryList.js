@@ -48,6 +48,18 @@ const queryList = {
             });
         });
     },
+    getAllManagers: function (db) {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT DISTINCT manager_id FROM employee WHERE manager_id IS NOT NULL', function (err, results) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    },
+
     addEmployee: function (db, employee) {
         db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employee.first_name, employee.last_name, employee.role_id, employee.manager_id], function (err, results) {
             if (err) throw err;
@@ -80,7 +92,16 @@ const queryList = {
                 console.table(results);
             }
         });
-    }
+    },
+    viewEmployeesByManager: function (db, manager_id) {
+        db.query('SELECT * FROM employee WHERE manager_id = ?', [manager_id], function (err, results) {
+            if (err) {
+                throw err
+            } else {
+                console.table(results);
+            }
+        });
+    },
 };
 
 

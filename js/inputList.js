@@ -9,9 +9,9 @@ const inputList = [
     'Add Role',
     'Update Employee Role',
     'View Employees by Department',
+    'View Employees by Manager',
     // need to update
     // update employee manager
-    // view employees by manager
     // delete departments, roles, and employees
     // view total salaries of departments
     'Exit'
