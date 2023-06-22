@@ -62,8 +62,8 @@ async function startPrompt(db) {
                 queryList.deleteDepartment(db, deleteDept);
                 break;
             case 'Delete Role':
-                const deleteRole = await deleteRole(db);
-                queryList.deleteRole(db, deleteRole);
+                const roleDel = await deleteRole(db);
+                queryList.deleteRole(db, roleDel);
                 break;
             case 'Exit':
                 console.log('Goodbye!');
@@ -328,5 +328,33 @@ async function deleteDepartment(db) {
 }
 
 
+async function deleteRole(db) {
+    try {
+        const roles = await queryList.getAllRoles(db);
+        const rolesIds = roles.map(role => role.id);
+        console.table(roles);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the role you would like to delete?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
+
+        if (!rolesIds.includes(response.id)) {
+            console.log('Please enter a valid role id');
+            return;
+        } else {
+            return response.id;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 module.exports = { startPrompt };
