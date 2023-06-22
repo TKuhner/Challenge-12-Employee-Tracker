@@ -38,20 +38,16 @@ async function startPrompt(db) {
                 break;
             case 'Add Role':
                 const role = await addRole(db);
-                if (role === undefined) {
-                    console.log('Error: Role not added. Please try again.');
-                    break;
-                } else {
-                    queryList.addRole(db, role);
-                    break;
-                }
+                queryList.addRole(db, role);
+                break;
             case 'Update Employee Role':
                 const updateEmployee = await updateEmployeeRole(db);
                 queryList.updateEmployeeRole(db, updateEmployee.role_id, updateEmployee.id);
                 break;
             case 'View Employees by Department':
-                const dept = await queryList.getAllDepartments(db);
-                queryList.viewEmployeesByDepartment(db);
+                const depts = await viewEmployeesByDepartment(db);
+                const query = queryList.viewEmployeesByDepartment(db, depts);
+                console.table(query);
                 break;
             default:
                 console.log('Error');
@@ -116,7 +112,6 @@ async function addRole(db) {
             console.log('Please enter a valid department id');
             return;
         } else {
-            console.log('Role added!');
             return response;
         }
 
@@ -219,7 +214,7 @@ async function updateEmployeeRole(db) {
     }
 }
 
-async function viewEmployeesByDepartment(db){
+async function viewEmployeesByDepartment(db) {
     try {
         const departments = await queryList.getAllDepartments(db);
         const departmentsIds = departments.map(department => department.id);
@@ -231,6 +226,7 @@ async function viewEmployeesByDepartment(db){
                 name: 'id'
             }
         ]);
+        console.log(response.id);
         if (isNaN(response.id)) {
             console.log('Please enter a valid input');
             return;
@@ -241,7 +237,7 @@ async function viewEmployeesByDepartment(db){
             return;
         } else {
             console.log('Employees by department!');
-            return response;
+            return response.id;
         }
 
     } catch (error) {
