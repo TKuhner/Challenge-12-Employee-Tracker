@@ -1,6 +1,6 @@
 USE employeetracker_db;
 
-INSERT INTO department (name) VALUES
+INSERT INTO department (department_name) VALUES
     ('Sales'),
     ('Engineering'),
     ('Finance'),
@@ -23,4 +23,4 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
     ('Malia', 'Brown', 5, NULL),
     ('Sarah', 'Lourd', 6, 5),
     ('Tom', 'Allen', 7, 5),
-    ('Tina', 'Lee', 8, 5);
+    ('Tina', 'Lee', 7, 5);
