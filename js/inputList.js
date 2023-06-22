@@ -1,6 +1,5 @@
 // array of possible inputs for inquirer prompts
 const inputList = [
-    // working
     'Add Department',
     'Add Employee',
     'Add Role',
@@ -14,8 +13,6 @@ const inputList = [
     'View Employees by Department',
     'View Employees by Manager',
     'View Total Utilized Budget of Department',
-    // need to update
-    // update employee manager
     'Exit'
 ];
 

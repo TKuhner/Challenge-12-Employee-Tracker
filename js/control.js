@@ -6,6 +6,7 @@ const { start } = require('repl');
 const { query } = require('express');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
+// async function to handle main prompt and call appropriate functions
 async function startPrompt(db) {
     await delay(100);
     const userInput = await inquirer.prompt([
@@ -13,10 +14,12 @@ async function startPrompt(db) {
             name: 'userInput',
             type: 'list',
             message: 'What would you like to do?',
+            // inputList is an array of possible inputs for inquirer prompts
             choices: inputList.inputList
         }
     ]);
 
+    // switch statement to handle user input
     const handleUserInput = async (userInput) => {
         switch (userInput) {
             case 'View All Employees':
@@ -51,7 +54,7 @@ async function startPrompt(db) {
                 break;
             case 'View Employees by Manager':
                 const managers = await viewEmployeesByManager(db);
-                const queryManagers = queryList.viewEmployeesByManager(db, managers);
+                queryList.viewEmployeesByManager(db, managers);
                 break;
             case 'Delete Employee':
                 const deleteEmp = await deleteEmployee(db);
@@ -68,21 +71,17 @@ async function startPrompt(db) {
             case 'View Total Utilized Budget of Department':
                 const deptBudget = await viewTotalDeptBudget(db);
                 queryList.viewTotalDeptBudget(db, deptBudget);
-
                 break;
             case 'Exit':
                 console.log('Goodbye!');
                 process.exit();
             default:
                 console.log('Error');
-
-            // bonus cases
-            // Update employee managers.
-
+                break;
         }
-        startPrompt(db); // Recursive call
+        // Recursive call to startPrompt to continue asking user for input
+        startPrompt(db); 
     };
-
     await handleUserInput(userInput.userInput);
 }
 
