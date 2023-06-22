@@ -128,8 +128,17 @@ const queryList = {
                 console.log('Role deleted!');
             }
         });
+    },
+    viewTotalDeptBudget: function (db, department_id) {
+        db.query('SELECT SUM(salary) FROM role WHERE department_id = ?', [department_id], function (err, results) {
+            if (err) {
+                throw err
+            } else {
+                console.table(results);
+            }
+        });
     }
-    
+
 };
 
 

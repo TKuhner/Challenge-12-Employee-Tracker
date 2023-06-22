@@ -13,10 +13,9 @@ const inputList = [
     'View All Roles',
     'View Employees by Department',
     'View Employees by Manager',
-    // 'View Total Utilized Budget of Department',
+    'View Total Utilized Budget of Department',
     // need to update
     // update employee manager
-    // view total salaries of departments
     'Exit'
 ];
 

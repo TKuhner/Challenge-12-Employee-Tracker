@@ -65,10 +65,14 @@ async function startPrompt(db) {
                 const roleDel = await deleteRole(db);
                 queryList.deleteRole(db, roleDel);
                 break;
+            case 'View Total Utilized Budget of Department':
+                const deptBudget = await viewTotalDeptBudget(db);
+                queryList.viewTotalDeptBudget(db, deptBudget);
+
+                break;
             case 'Exit':
                 console.log('Goodbye!');
                 process.exit();
-                break;
             default:
                 console.log('Error');
 
@@ -321,18 +325,14 @@ async function viewEmployeesByManager(db) {
                 name: 'id'
             }
         ]);
-        console.log("response.id " + response.id);
         if (isNaN(response.id)) {
             console.log('Please enter a valid input');
             return;
         }
-        console.log("manager ids " + managersIds);
-
         if (!managersIds.includes(response.id)) {
             console.log('Please enter a valid manager id');
             return;
         } else {
-            console.log('Employees by manager!');
             return response.id;
         }
 
@@ -382,9 +382,34 @@ async function updateEmployeeRole(db) {
     }
 }
 
+async function viewTotalDeptBudget(db) {
+    try {
+        const departments = await queryList.getAllDepartments(db);
+        const departmentsIds = departments.map(department => department.id);
+        console.table(departments);
+        const response = await inquirer.prompt([
+            {
+                type: 'number',
+                message: 'What is the id of the department you would like to view?',
+                name: 'id'
+            }
+        ]);
+        if (isNaN(response.id)) {
+            console.log('Please enter a valid input');
+            return;
+        }
 
+        if (!departmentsIds.includes(response.id)) {
+            console.log('Please enter a valid department id');
+            return;
+        } else {
+            return response.id;
+        }
 
-
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 
 module.exports = { startPrompt };
