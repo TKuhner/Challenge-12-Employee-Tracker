@@ -13,10 +13,9 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     // Add Your MySQL Password Here
-    password: '1234',
+    password: '',
     database: 'employeetracker_db'
 });
-
 
 const init = async () => {
     console.log('Welcome to the Employee Tracker!');

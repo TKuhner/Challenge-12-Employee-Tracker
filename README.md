@@ -27,8 +27,6 @@ The Employee Tracker System is a command-line application that allows users to m
 
 ```source ./db/seeds.sql;```
 
-```SET FOREIGN_KEY_CHECKS=0;```
-
 5. Close sql shell and navigate to the project directory in the terminal.
 
 6. Start the application: `node server.js` or 
