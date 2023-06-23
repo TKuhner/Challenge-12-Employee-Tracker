@@ -197,6 +197,7 @@ async function deleteDepartment(db) {
     try {
         const departments = await queryList.getAllDepartments(db);
         const departmentsIds = departments.map(department => department.id);
+        console.log("Please note, that the ID of the department you select must be a corresponding number to this table.")
         console.table(departments);
         const response = await inquirer.prompt([
             {
@@ -226,6 +227,7 @@ async function deleteEmployee(db) {
     try {
         const employees = await queryList.getAllEmployees(db);
         const employeesIds = employees.map(employee => employee.id);
+        console.log("Please note, that the ID of the employee you select must be a corresponding number to this table.")
         console.table(employees);
         const response = await inquirer.prompt([
             {
@@ -255,6 +257,7 @@ async function deleteRole(db) {
     try {
         const roles = await queryList.getAllRoles(db);
         const rolesIds = roles.map(role => role.id);
+        console.log("Please note, that the ID of the role you select must be a corresponding number to this table.")
         console.table(roles);
         const response = await inquirer.prompt([
             {
@@ -284,6 +287,7 @@ async function viewEmployeesByDepartment(db) {
     try {
         const departments = await queryList.getAllDepartments(db);
         const departmentsIds = departments.map(department => department.id);
+        console.log("Please note, that the ID of the department you select must be a corresponding number to this table.")
         console.table(departments);
         const response = await inquirer.prompt([
             {
@@ -316,6 +320,7 @@ async function viewEmployeesByManager(db) {
     try {
         const managers = await queryList.getAllManagers(db);
         const managersIds = managers.map(manager => manager.manager_id);
+        console.log("Please note, that the ID of the manager you select must be a corresponding number to this table.")
         console.table(managers);
         const response = await inquirer.prompt([
             {
@@ -346,6 +351,7 @@ async function updateEmployeeRole(db) {
         const employeesIds = employees.map(employee => employee.id);
         const roles = await queryList.getAllRoles(db);
         const rolesIds = roles.map(role => role.id);
+        console.log("Please note, that the ID of the employee and ID of the role you select must be a corresponding number to this table.")
         console.table(employees);
         console.table(roles);
         const response = await inquirer.prompt([
@@ -385,6 +391,7 @@ async function viewTotalDeptBudget(db) {
     try {
         const departments = await queryList.getAllDepartments(db);
         const departmentsIds = departments.map(department => department.id);
+        console.log("Please note, that the ID of the department you select must be a corresponding number to this table.")
         console.table(departments);
         const response = await inquirer.prompt([
             {
