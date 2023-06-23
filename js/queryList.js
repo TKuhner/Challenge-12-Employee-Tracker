@@ -134,7 +134,7 @@ const queryList = {
         });
     },
     viewTotalDeptBudget: function (db, department_id) {
-        db.query('SELECT SUM(salary) FROM role WHERE department_id = ? AS dept_salary', [department_id], function (err, results) {
+        db.query('SELECT SUM(salary) AS dept_salary FROM role WHERE department_id = ? ', [department_id], function (err, results) {
             if (err) {
                 throw err
             } else {
