@@ -50,7 +50,6 @@ async function startPrompt(db) {
             case 'View Employees by Department':
                 const depts = await viewEmployeesByDepartment(db);
                 const queryDepts = queryList.viewEmployeesByDepartment(db, depts);
-                console.table(queryDepts);
                 break;
             case 'View Employees by Manager':
                 const managers = await viewEmployeesByManager(db);
@@ -296,7 +295,7 @@ async function viewEmployeesByDepartment(db) {
                 name: 'id'
             }
         ]);
-        console.log(response.id);
+
         if (isNaN(response.id)) {
             console.log('Please enter a valid input');
             return;

@@ -83,8 +83,13 @@ const queryList = {
         db.query('UPDATE employee SET role_id = ? WHERE id = ?', [role_id, id]);
     },
     viewEmployeesByDepartment: function (db, department_id) {
-        console.log("dept id " + department_id);
-        db.query('SELECT * FROM employee JOIN department WHERE department.id = ?', [department_id], function (err, results) {
+
+        db.query(`
+        SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name
+        FROM employee
+        JOIN role ON employee.role_id = role.id
+        JOIN department ON role.department_id = department.id
+        WHERE department_id = ?;`, [department_id], function (err, results) {
             if (err) {
                 throw err
             } else {
