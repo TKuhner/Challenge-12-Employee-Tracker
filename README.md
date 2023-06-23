@@ -23,9 +23,11 @@ The Employee Tracker System is a command-line application that allows users to m
 - Update the database configuration in the `server.js` file with your MySQL credentials.
 - login to MySQL shell and run the following commands:
 
-```source db/schema.sql```
+```source ./db/schema.sql;```
 
-```source db/seeds.sql```
+```source ./db/seeds.sql;```
+
+```SET FOREIGN_KEY_CHECKS=0;```
 
 5. Close sql shell and navigate to the project directory in the terminal.
 
